@@ -5,6 +5,7 @@ const port = 4567; // port to listen on
 const app = express(); // instantiate express
 app.use(require("cors")()); // allow Cross-domain requests
 app.use(require("body-parser").json()); // automatically parses request data to JSON
+app.use(express.static(__dirname));
 // make sure in the free tier of MongoDB atlas when connecting, to
 // select version 2.2.* as the node.js driver instead of the default 3.0
 // put your URI HERE ⬇
@@ -38,7 +39,7 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+
 
 
 
@@ -47,7 +48,7 @@ run().catch(console.dir);
     app.get("/", (req, res) => {
       //res.send("You are home 🏚.");
       var test = "you are";
-      try {
+      try{
 		test = run();
       }finally{
         res.send(test);

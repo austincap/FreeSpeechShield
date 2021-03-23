@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="freeSpeechPopup.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="Chart.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="Chart.min.js"></script>
+  </head>
+
+<body>
+  <div class="outer-wrapper">
+    <div class="new-note">
+      <input type="text">
+      <textarea></textarea>
+      <button class="clear" data-toggle="tooltip" title="clear notes">Clear notes</button>
+      <button class="add">Add note</button>
+      <button class="submitreport">Submit report</button>
+      <button class="submiturl">Request an audit of this community</button>
+      <div class="clearfix"></div>
+    </div>
+    
+    <div class="note-container">
+      <div class="divTable">
+        <div class="divTableBody">
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;facebook.com is legally bound by <span id="country">NO COUNTRY</span>'s laws and is a subcommunity of <span id="communityparent">NO ONE</span>.</div>
+        <div class="divTableCell" id="overallscore">1/5<div id="overallscore-label">overall score</div></div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;ideological leanings</div>
+        <div class="divTableCell">&nbsp;left</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;country</div>
+        <div class="divTableCell">&nbsp;usa</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell" data-toggle="tooltip" title="note: we do not distinguish between true and false information here, nor the ideological flavor. Only the semantic class of info">&nbsp;types of information that are censored</div>
+        <div class="divTableCell">&nbsp;basic porn, advanced porn, political, criminal, heretical, racist, sexist</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">
+          <canvas id="myChart" width="400" height="400"></canvas>
+
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
+          
+        </div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;user reports</div>
+        <div class="divTableCell">&nbsp;33</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;number of explicitly banned words, topics, memes, etc</div>
+        <div class="divTableCell">&nbsp;<a href="https://www.facebook.com/communitystandards/introduction">115</a></div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell"><b>&nbsp;this community:</b></div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does not allow anonymous posting</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">will permaban users for constitutionally protected speech</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">will not shadowban</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does not have vague rules on speech</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does not have aggressive moderation</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">will delete user posts without consent</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;this community will</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;this community will</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;this community will</div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="freeSpeechPopup.js"></script>
+</body>
+
+</html>
