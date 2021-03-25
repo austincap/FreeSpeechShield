@@ -2,24 +2,25 @@
 
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="freeSpeechPopup.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="Chart.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <link rel="stylesheet" href="Chart.min.css"/>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
     <script src="Chart.min.js"></script>
   </head>
 
 <body>
+
   <div class="outer-wrapper">
     <div class="new-note">
-      <input type="text">
-      <textarea></textarea>
+      <input id="intext" type="text" />
+      <textarea id="your_url_here"></textarea>
       <button class="clear" data-toggle="tooltip" title="clear notes">Clear notes</button>
       <button class="add">Add note</button>
       <button class="submitreport">Submit report</button>
-      <button class="submiturl">Request an audit of this community</button>
+      <button class="submiturl" onclick="requestServerData();">Request an audit of this community</button>
       <div class="clearfix"></div>
     </div>
     
@@ -44,50 +45,7 @@
         </div>
         <div class="divTableRow">
         <div class="divTableCell">
-          <canvas id="myChart" width="400" height="400"></canvas>
-
-<script>
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
-
-
-          
+          <canvas id="myChart" width="200" height="200"></canvas>   
         </div>
         </div>
         <div class="divTableRow">
@@ -134,6 +92,79 @@ var myChart = new Chart(ctx, {
   </div>
 
   <script src="freeSpeechPopup.js"></script>
+
+  <h1>Sending forms with FormData</h1>
+  <h2>Using the GET method</h2>
+  <form action="register.php" method="get" onsubmit="AJAXSubmit(this); return false;">
+    <fieldset>
+      <legend>Registration example</legend>
+      <p>
+        First name: <input type="text" name="firstname" /><br />
+        Last name: <input type="text" name="lastname" />
+      </p>
+      <p>
+        <input type="submit" value="Submit" />
+      </p>
+    </fieldset>
+  </form>
+
+  <h2>Using the POST method</h2>
+  <h3>Enctype: application/x-www-form-urlencoded (default)</h3>
+  <form action="register.php" method="post" onsubmit="AJAXSubmit(this); return false;">
+    <fieldset>
+      <legend>Registration example</legend>
+      <p>
+        First name: <input type="text" name="firstname" /><br />
+        Last name: <input type="text" name="lastname" />
+      </p>
+      <p>
+        <input type="submit" value="Submit" />
+      </p>
+    </fieldset>
+  </form>
+
+  <h3>Enctype: text/plain</h3>
+  <p>The text/plain encoding is not supported by the FormData API.</p>
+  <h3>Enctype: multipart/form-data</h3>
+  <form action="register.php" method="post" enctype="multipart/form-data" onsubmit="AJAXSubmit(this); return false;">
+    <fieldset>
+      <legend>Upload example</legend>
+      <p>
+        First name: <input type="text" name="firstname" /><br />
+        Last name: <input type="text" name="lastname" /><br />
+        Sex:
+        <input id="sex_male" type="radio" name="sex" value="male" />
+        <label for="sex_male">Male</label>
+        <input id="sex_female" type="radio" name="sex" value="female" />
+        <label for="sex_female">Female</label><br />
+        Password: <input type="password" name="secret" /><br />
+        What do you prefer:
+        <select name="image_type">
+          <option>Books</option>
+          <option>Cinema</option>
+          <option>TV</option>
+        </select>
+      </p>
+      <p>
+        Post your photos:
+        <input type="file" multiple name="photos[]">
+      </p>
+      <p>
+        <input id="vehicle_bike" type="checkbox" name="vehicle[]" value="Bike" />
+        <label for="vehicle_bike">I have a bike</label><br />
+        <input id="vehicle_car" type="checkbox" name="vehicle[]" value="Car" />
+        <label for="vehicle_car">I have a car</label>
+      </p>
+      <p>
+        Describe yourself:<br />
+        <textarea name="description" cols="50" rows="8"></textarea>
+      </p>
+      <p>
+        <input type="submit" value="Submit" />
+      </p>
+    </fieldset>
+  </form>
+
 </body>
 
 </html>

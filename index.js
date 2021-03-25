@@ -48,6 +48,7 @@ async function run() {
     app.get("/", (req, res) => {
       //res.send("You are home 🏚.");
       var test = "you are";
+      console.log(req);
       try{
 		test = run();
       }finally{

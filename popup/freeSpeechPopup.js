@@ -2,41 +2,46 @@
 
 var inputTitle = document.querySelector('.new-note input');
 var inputBody = document.querySelector('.new-note textarea');
-
 var noteContainer = document.querySelector('.note-container');
-
 
 var clearBtn = document.querySelector('.clear');
 var addBtn = document.querySelector('.add');
-
+var submiturlBtn = document.querySelector('.submiturl');
 /*  add event listeners to buttons */
-
-addBtn.addEventListener('click', addNote);
+//addBtn.addEventListener('click', addNote);
 clearBtn.addEventListener('click', clearAll);
-
+submiturlBtn.addEventListener('click', requestServerData);
 /* generic error handler */
 function onError(error) {
   console.log(error);
 }
 
 /* display previously-saved stored notes on startup */
-
 initialize();
 
 function initialize() {
-  var gettingAllStorageItems = browser.storage.local.get(null);
-  gettingAllStorageItems.then((results) => {
-    var noteKeys = Object.keys(results);
-    for (let noteKey of noteKeys) {
-      var curValue = results[noteKey];
-      displayNote(noteKey,curValue);
-    }
-  }, onError);
+  try {
+      alert('Open the Browser Console.');
+  } catch(e) {
+      console.log('alert() threw an error. Probably Firefox version < 49.');
+  }
+  //XMLHttpRequest(window.location.hostname)
+  // var gettingAllStorageItems = browser.storage.local.get(null);
+  // gettingAllStorageItems.then((results) => {
+  //   var noteKeys = Object.keys(results);
+  //   for (let noteKey of noteKeys) {
+  //     var curValue = results[noteKey];
+  //     displayNote(noteKey,curValue);
+  //   }
+  // }, onError);
 }
 
 /* Add a note to the display, and storage */
 
 function addNote() {
+  $("textarea").val('tet');$("#intext").val('tet');
+  window.location.href='/?tag=';
+  console.log("tet");
   var noteTitle = inputTitle.value;
   var noteBody = inputBody.value;
   var gettingItem = browser.storage.local.get(noteTitle);
@@ -170,8 +175,102 @@ function updateNote(delNote,newTitle,newBody) {
 /* Clear all notes from the display/storage */
 
 function clearAll() {
+  console.log("TEST");$("#intext").val('tet');
   while (noteContainer.firstChild) {
       noteContainer.removeChild(noteContainer.firstChild);
   }
   browser.storage.local.clear();
 }
+
+
+function requestServerData(){
+  AJAXSubmit("ete");
+  console.log('url');
+  $("#intext").val('tet');
+  // var Request = new XMLHttpRequest();
+  // function requestHandler(data){
+  //   var url = window.location.hostname;
+  //   Request.open('POST', url, true);
+  //   console.log('url');
+  //   inputBody.value('tet');
+  //   Request.onreadystatechange = sendData;
+  //   Request.send(data);
+  // } 
+  // function sendData(){
+  //   if (Request.readyState == 4 && Request.status == 200) {
+  //     alert('Data sent ...');
+  //   } else {
+  //     alert('Connection FAIL,\nCheck connection and Retry !!!');
+  //     console.log(Request);
+  //   }
+  // }
+  // requestHandler('data');
+}
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    function ajaxSuccess () {
+      console.log(this.responseText);
+    }
+
+    function AJAXSubmit (oFormElement) {
+      if (!oFormElement.action) { return; }
+      var oReq = new XMLHttpRequest();
+      oReq.onload = ajaxSuccess;
+      if (oFormElement.method.toLowerCase() === "post") {
+        oReq.open("post", oFormElement.action);
+        oReq.send(new FormData(oFormElement));
+      } else {
+        var oField, sFieldType, nFile, sSearch = "";
+        for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
+          oField = oFormElement.elements[nItem];
+          if (!oField.hasAttribute("name")) { continue; }
+          sFieldType = oField.nodeName.toUpperCase() === "INPUT" ?
+              oField.getAttribute("type").toUpperCase() : "TEXT";
+          if (sFieldType === "FILE") {
+            for (nFile = 0; nFile < oField.files.length;
+                sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name));
+          } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
+            sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
+          }
+        }
+        oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
+        oReq.send(null);
+      }
+    }
