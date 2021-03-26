@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="Chart.min.css"/>
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
-    <!-- <script src="Chart.js"></script> -->
+    <script src="Chart.js"></script>
+    <script src="socket.io.min.js"></script>
+    <script src="canvasjs.min.js"></script>
+    <script src="freeSpeechPopup.js"></script>
   </head>
 
 <body>
 
   <div class="outer-wrapper">
     <div class="new-note">
-      <input id="intext" type="text" />
+      <input id="intext">tttt</input>
       <textarea id="your_url_here"></textarea>
-      <button class="clear" data-toggle="tooltip" title="clear notes">Clear notes</button>
-      <button class="add">Add note</button>
+      <button class="clear" onclick="clearAll();" data-toggle="tooltip" title="clear notes">Clear notes</button>
+      <button class="add" onclick="addNote();">Add note</button>
       <button class="submitreport">Submit report</button>
       <button class="submiturl" onclick="requestServerData();">Request an audit of this community</button>
       <div class="clearfix"></div>
@@ -42,11 +45,6 @@
         <div class="divTableRow">
         <div class="divTableCell" data-toggle="tooltip" title="note: we do not distinguish between true and false information here, nor the ideological flavor. Only the semantic class of info">&nbsp;types of information that are censored</div>
         <div class="divTableCell">&nbsp;basic porn, advanced porn, political, criminal, heretical, racist, sexist</div>
-        </div>
-        <div class="divTableRow">
-        <div class="divTableCell">
-          <canvas id="myChart" width="200" height="200"></canvas>   
-        </div>
         </div>
         <div class="divTableRow">
         <div class="divTableCell">&nbsp;user reports</div>
@@ -74,25 +72,15 @@
         <div class="divTableRow">
         <div class="divTableCell">does not have aggressive moderation</div>
         </div>
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         <div class="divTableRow">
         <div class="divTableCell">will delete user posts without consent</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">&nbsp;this community will</div>
-        </div>
-        <div class="divTableRow">
-        <div class="divTableCell">&nbsp;this community will</div>
-        </div>
-        <div class="divTableRow">
-        <div class="divTableCell">&nbsp;this community will</div>
-        </div>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
       </div>
     </div>
   </div>
-
-  <script src="freeSpeechPopup.js"></script>
 
   <h1>Sending forms with FormData</h1>
   <h2>Using the GET method</h2>

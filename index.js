@@ -3,6 +3,8 @@ const express = require("express"); // the library we will use to handle request
 const { MongoClient } = require("mongodb"); // load mongodb
 const port = 4567; // port to listen on
 const app = express(); // instantiate express
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 app.use(require("cors")()); // allow Cross-domain requests
 app.use(require("body-parser").json()); // automatically parses request data to JSON
 app.use(express.static(__dirname));
@@ -12,8 +14,9 @@ app.use(express.static(__dirname));
 const uri = "mongodb+srv://randomuser:fucksluts@freespeechshieldcluster.8apgw.mongodb.net";
 // Create a new MongoClient
 const client = new MongoClient(uri, {useNewUrlParser:true, useUnifiedTopology:true});
-var siteDocument = {};
+
 async function run() {
+  var siteDocument = {};
   try {
     // Connect the client to the server
     await client.connect();
@@ -30,19 +33,25 @@ async function run() {
     //   // Include only the `title` and `imdb` fields in the returned document
     //   //projection: { _id: 0, title: 1, imdb: 1 },
     };
-    var siteDocument = await DoSCollection.findOne(query, options);
+    siteDocument = await DoSCollection.findOne(query, options);
     // since this method returns the matched document, not a cursor, print it directly
     console.log(siteDocument.url);
   } finally {
-  	return siteDocument.url;
     // Ensures that the client will close when you finish/error
     await client.close();
+    return siteDocument.url;
   }
 }
 
 
 
-
+    // server-side
+	io.on("connection", (socket) => {
+	  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
+	  socket.on("getwindowlocation", function(message){
+	  	console.log(message);
+	  });
+	});
 
     // if someone goes to base route, send back they are home.
     app.get("/", (req, res) => {
@@ -57,8 +66,9 @@ async function run() {
     });
 
   // listen for requests
-  var listener = app.listen(port, () => {
+  var listener = http.listen(port, () => {
     console.log("Your app is listening on port " + listener.address().port);
+
   });
 
 

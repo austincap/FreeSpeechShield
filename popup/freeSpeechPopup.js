@@ -3,14 +3,14 @@
 var inputTitle = document.querySelector('.new-note input');
 var inputBody = document.querySelector('.new-note textarea');
 var noteContainer = document.querySelector('.note-container');
-
-var clearBtn = document.querySelector('.clear');
-var addBtn = document.querySelector('.add');
-var submiturlBtn = document.querySelector('.submiturl');
+const socket = io();
+//var clearBtn = document.querySelector('.clear');
+//var addBtn = document.querySelector('.add');
+//var submiturlBtn = document.querySelector('.submiturl');
 /*  add event listeners to buttons */
 //addBtn.addEventListener('click', addNote);
-clearBtn.addEventListener('click', clearAll);
-submiturlBtn.addEventListener('click', requestServerData);
+//clearBtn.addEventListener('click', clearAll);
+//submiturlBtn.addEventListener('click', requestServerData);
 /* generic error handler */
 function onError(error) {
   console.log(error);
@@ -20,27 +20,24 @@ function onError(error) {
 initialize();
 
 function initialize() {
-  try {
-      alert('Open the Browser Console.');
-  } catch(e) {
-      console.log('alert() threw an error. Probably Firefox version < 49.');
-  }
+
   //XMLHttpRequest(window.location.hostname)
-  // var gettingAllStorageItems = browser.storage.local.get(null);
-  // gettingAllStorageItems.then((results) => {
-  //   var noteKeys = Object.keys(results);
-  //   for (let noteKey of noteKeys) {
-  //     var curValue = results[noteKey];
-  //     displayNote(noteKey,curValue);
-  //   }
-  // }, onError);
+  var gettingAllStorageItems = browser.storage.local.get(null);
+  gettingAllStorageItems.then((results) => {
+    var noteKeys = Object.keys(results);
+    for (let noteKey of noteKeys) {
+      var curValue = results[noteKey];
+      displayNote(noteKey,curValue);
+    }
+  }, onError);
 }
 
 /* Add a note to the display, and storage */
 
 function addNote() {
-  $("textarea").val('tet');$("#intext").val('tet');
-  window.location.href='/?tag=';
+  $("#intext").val('tet');
+  //window.location.href='/?tag=';
+  socket.emit("getwindowlocation", {"3":"ikjfds"});
   console.log("tet");
   var noteTitle = inputTitle.value;
   var noteBody = inputBody.value;
@@ -175,7 +172,8 @@ function updateNote(delNote,newTitle,newBody) {
 /* Clear all notes from the display/storage */
 
 function clearAll() {
-  console.log("TEST");$("#intext").val('tet');
+  console.log("TEST");
+  $("#intext").val('erase');
   while (noteContainer.firstChild) {
       noteContainer.removeChild(noteContainer.firstChild);
   }
@@ -185,8 +183,8 @@ function clearAll() {
 
 function requestServerData(){
   AJAXSubmit("ete");
-  console.log('url');
-  $("#intext").val('tet');
+  console.log('requestServerData');
+  $("#intext").val('requestServerData');
   // var Request = new XMLHttpRequest();
   // function requestHandler(data){
   //   var url = window.location.hostname;
