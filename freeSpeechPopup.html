@@ -11,7 +11,7 @@
     <script src="Chart.js"></script>
     <script src="socket.io.min.js"></script>
     <script src="canvasjs.min.js"></script>
-    <script src="freeSpeechPopup.js"></script>
+
   </head>
 
 <body>
@@ -20,10 +20,10 @@
     <div class="new-note">
       <input id="intext">tttt</input>
       <textarea id="your_url_here"></textarea>
-      <button class="clear" onclick="clearAll();" data-toggle="tooltip" title="clear notes">Clear notes</button>
-      <button class="add" onclick="addNote();">Add note</button>
+      <button class="clear" data-toggle="tooltip" title="clear notes">Clear notes</button>
+      <button class="add">Add note</button>
       <button class="submitreport">Submit report</button>
-      <button class="submiturl" onclick="requestServerData();">Request an audit of this community</button>
+      <button class="submiturl">Request an audit of this community</button>
       <div class="clearfix"></div>
     </div>
     
@@ -153,7 +153,7 @@
       </p>
     </fieldset>
   </form>
-
+    <script src="freeSpeechPopup.js"></script>
 </body>
 
 </html>

@@ -10,6 +10,7 @@
   },
 
   "permissions": [
+    "<all_urls>",
     "storage",
     "webRequest",
     "tabs"
@@ -21,7 +22,7 @@
      "32" : "shield.png"
     },
     "default_title": "Free Speech Shield",
-    "default_popup": "popup/freeSpeechPopup.html"
+    "default_popup": "freeSpeechPopup.html"
   },
 
   "browser_specific_settings": {
