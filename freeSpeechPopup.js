@@ -1,9 +1,7 @@
-/* initialise variables */
-
 var inputTitle = document.querySelector('.new-note input');
 var inputBody = document.querySelector('.new-note textarea');
 var noteContainer = document.querySelector('.note-container');
-const socket = io();
+// var socket = io();
 var clearBtn = document.querySelector('.clear');
 var addBtn = document.querySelector('.add');
 var submiturlBtn = document.querySelector('.submiturl');
@@ -18,10 +16,7 @@ function onError(error) {
 
 /* display previously-saved stored notes on startup */
 initialize();
-
 function initialize() {
-
-  //XMLHttpRequest(window.location.hostname)
   var gettingAllStorageItems = browser.storage.local.get(null);
   gettingAllStorageItems.then((results) => {
     var noteKeys = Object.keys(results);
@@ -33,11 +28,27 @@ function initialize() {
 }
 
 /* Add a note to the display, and storage */
+function onGot(tabInfo) {
+  console.log(tabInfo);
+}
+
 
 function addNote() {
   $("#intext").val('tet');
   //window.location.href='/?tag=';
-  socket.emit("getwindowlocation", {"3":"ikjfds"});
+
+
+  // browser.tabs.query({currentWindow: true, active: true}).then((tabs) => {let tab = tabs[0]; console.log(tab.url);}, console.error);
+  // var gettingCurrent = browser.tabs.getCurrent();
+  // gettingCurrent.then(onGot, onError);
+
+  browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var tab = tabs[0];
+    var url = new URL(tab.url);
+    var domain = url.hostname;
+    socket.emit("getwindowlocation", {"url":url, "domain":domain});
+  });
+  //socket.emit("getwindowlocation", window.location.href);
   console.log("tet");
   var noteTitle = inputTitle.value;
   var noteBody = inputBody.value;
@@ -52,17 +63,11 @@ function addNote() {
   }, onError);
 }
 
-/* function to store a new note in storage */
 
 function storeNote(title, body) {
   var storingNote = browser.storage.local.set({ [title] : body });
-  storingNote.then(() => {
-    displayNote(title,body);
-  }, onError);
+  storingNote.then(() => { displayNote(title,body); }, onError);
 }
-
-/* function to display a note in the note box */
-
 function displayNote(title, body) {
 
   /* create note display box */
@@ -151,10 +156,6 @@ function displayNote(title, body) {
     } 
   });
 }
-
-
-/* function to update notes */
-
 function updateNote(delNote,newTitle,newBody) {
   var storingNote = browser.storage.local.set({ [newTitle] : newBody });
   storingNote.then(() => {
@@ -168,9 +169,6 @@ function updateNote(delNote,newTitle,newBody) {
     }
   }, onError);
 }
-
-/* Clear all notes from the display/storage */
-
 function clearAll() {
   console.log("TEST");
   $("#intext").val('erase');
@@ -180,6 +178,73 @@ function clearAll() {
   browser.storage.local.clear();
 }
 
+
+/**
+ * Sends a request to the specified url
+ * 
+ * @param type The request type "GET", "POST", etc.
+ * @param address The address to add to the SponsorBlock server address
+ * @param callback 
+ */
+// async function sendRequestToCustomServer(type: string, url: string, data = {}) {
+//     // If GET, convert JSON to parameters
+//     if (type.toLowerCase() === "get") {
+//         for (const key in data) {
+//             const seperator = url.includes("?") ? "&" : "?";
+//             const value = (typeof(data[key]) === "string") ? data[key]: JSON.stringify(data[key]);
+//             url += seperator + key + "=" + value;
+//         }
+//         data = null;
+//     }
+//     const response = await fetch(url, {
+//         method: type,
+//         headers: {'Content-Type': 'application/json'},
+//         redirect: 'follow',
+//         body: data ? JSON.stringify(data) : null
+//     });
+//     return response;
+// }
+
+// async function submitVote(type: number, UUID: string, category: string) {
+//     let userID = Config.config.userID;
+
+//     if (userID == undefined || userID === "undefined") {
+//         //generate one
+//         userID = utils.generateUserID();
+//         Config.config.userID = userID;
+//     }
+
+//     const typeSection = (type !== undefined) ? "&type=" + type : "&category=" + category;
+
+//     //publish this vote
+//     const response = await asyncRequestToServer("POST", "/api/voteOnSponsorTime?UUID=" + UUID + "&userID=" + userID + typeSection);
+
+//     if (response.ok) {
+//         return {
+//             successType: 1,
+//             responseText: await response.text()
+//         };
+//     } else if (response.status == 405) {
+//         //duplicate vote
+//         return {
+//             successType: 0,
+//             statusCode: response.status,
+//             responseText: await response.text()
+//         };
+//     } else {
+//         //error while connect
+//         return {
+//             successType: -1,
+//             statusCode: response.status,
+//             responseText: await response.text()
+//         };
+//     }
+// }
+
+// async function asyncRequestToServer(type: string, address: string, data = {}) {
+//   const serverAddress = Config.config.testingServer ? CompileConfig.testingServerAddress : Config.config.serverAddress;
+//   return await (sendRequestToCustomServer(type, serverAddress + address, data));
+// }
 
 function requestServerData(){
   AJAXSubmit("ete");
@@ -206,75 +271,105 @@ function requestServerData(){
 }
 
 
-    function ajaxSuccess () {
-      console.log(this.responseText);
-    }
-
-    function AJAXSubmit (oFormElement) {
-      if (!oFormElement.action) { return; }
-      var oReq = new XMLHttpRequest();
-      oReq.onload = ajaxSuccess;
-      if (oFormElement.method.toLowerCase() === "post") {
-        oReq.open("post", oFormElement.action);
-        oReq.send(new FormData(oFormElement));
-      } else {
-        var oField, sFieldType, nFile, sSearch = "";
-        for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
-          oField = oFormElement.elements[nItem];
-          if (!oField.hasAttribute("name")) { continue; }
-          sFieldType = oField.nodeName.toUpperCase() === "INPUT" ?
-              oField.getAttribute("type").toUpperCase() : "TEXT";
-          if (sFieldType === "FILE") {
-            for (nFile = 0; nFile < oField.files.length;
-                sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name));
-          } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
-            sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
-          }
-        }
-        oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
-        oReq.send(null);
+function ajaxSuccess () {
+  console.log('ajax success');
+  console.log(this.responseText);
+}
+function AJAXSubmit (oFormElement) {
+  if (!oFormElement.action) { return; }
+  var oReq = new XMLHttpRequest();
+  oReq.onload = ajaxSuccess;
+  if (oFormElement.method.toLowerCase() === "post") {
+    oReq.open("post", oFormElement.action);
+    oReq.send(new FormData(oFormElement));
+  } else {
+    var oField, sFieldType, nFile, sSearch = "";
+    for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
+      oField = oFormElement.elements[nItem];
+      if (!oField.hasAttribute("name")) { continue; }
+      sFieldType = oField.nodeName.toUpperCase() === "INPUT" ?
+          oField.getAttribute("type").toUpperCase() : "TEXT";
+      if (sFieldType === "FILE") {
+        for (nFile = 0; nFile < oField.files.length;
+            sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name));
+      } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
+        sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
       }
     }
-    window.onload = function () {
-      var chart = new CanvasJS.Chart("chartContainer", {
-        animationEnabled: true,
-        title:{
-          text:"Fortune 500 Companies by Country"
-        },
-        axisX:{
-          interval: 1
-        },
-        axisY2:{
-          interlacedColor: "rgba(1,77,101,.2)",
-          gridColor: "rgba(1,77,101,.1)",
-          title: "Number of Companies"
-        },
-        data: [{
-          type: "bar",
-          name: "companies",
-          axisYType: "secondary",
-          color: "#014D65",
-          dataPoints: [
-            { y: 3, label: "Sweden" },
-            { y: 7, label: "Taiwan" },
-            { y: 5, label: "Russia" },
-            { y: 9, label: "Spain" },
-            { y: 7, label: "Brazil" },
-            { y: 7, label: "India" },
-            { y: 9, label: "Italy" },
-            { y: 8, label: "Australia" },
-            { y: 11, label: "Canada" },
-            { y: 15, label: "South Korea" },
-            { y: 12, label: "Netherlands" },
-            { y: 15, label: "Switzerland" },
-            { y: 25, label: "Britain" },
-            { y: 28, label: "Germany" },
-            { y: 29, label: "France" },
-            { y: 52, label: "Japan" },
-            { y: 103, label: "China" },
-            { y: 134, label: "US" }
-          ]
-        }]
-      });
-      chart.render();
-    }
+    oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
+    oReq.send(null);
+  }
+}
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    title:{
+      text:"Fortune 500 Companies by Country"
+    },
+    axisX:{
+      interval: 1
+    },
+    axisY2:{
+      interlacedColor: "rgba(1,77,101,.2)",
+      gridColor: "rgba(1,77,101,.1)",
+      title: "Number of Companies"
+    },
+    data: [{
+      type: "bar",
+      name: "companies",
+      axisYType: "secondary",
+      color: "#014D65",
+      dataPoints: [
+        { y: 3, label: "Sweden" },
+        { y: 7, label: "Taiwan" },
+        { y: 5, label: "Russia" },
+        { y: 9, label: "Spain" },
+        { y: 7, label: "Brazil" },
+        { y: 7, label: "India" },
+        { y: 9, label: "Italy" },
+        { y: 8, label: "Australia" },
+        { y: 11, label: "Canada" },
+        { y: 15, label: "South Korea" },
+        { y: 12, label: "Netherlands" },
+        { y: 15, label: "Switzerland" },
+        { y: 25, label: "Britain" },
+        { y: 28, label: "Germany" },
+        { y: 29, label: "France" },
+        { y: 52, label: "Japan" },
+        { y: 103, label: "China" },
+        { y: 134, label: "US" }
+      ]
+    }]
+  });
+  chart.render();
+  browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var tab = tabs[0];
+    var url = new URL(tab.url);
+    var domain = url.hostname;
+    socket.emit("getwindowlocation", {"url":url, "domain":domain});
+  });
+}
+
+const socket = io("ws://localhost:4567");
+
+socket.on("connect", () => {
+  // either with send()
+  socket.send("Hello!");
+
+  // or with emit() and custom event names
+  socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+});
+
+socket.on("dbchecked", data => {
+  console.log(data);
+});
+
+// handle the event sent with socket.send()
+socket.on("message", data => {
+  console.log(data);
+});
+
+// handle the event sent with socket.emit()
+socket.on("greetings", (elem1, elem2, elem3) => {
+  console.log(elem1, elem2, elem3);
+});

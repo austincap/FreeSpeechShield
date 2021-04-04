@@ -13,7 +13,7 @@ This extension is meant to provide users with comprehensive at-a-glance data on 
 * whether moderators shadowban
 * whether you can post anonymously
 * whether the rules regarding speech are vague
-* idelogical flavor of moderation
+* ideological flavor of moderation
 
 We also specify how frequently which category of information the moderators censor utilizing the following categories:
 
@@ -34,13 +34,13 @@ It's important to note that we do NOT make a distinction between which ideologic
 Generally, the less taboo NSFW content such as solo, gangbang, gay, trans, bdsm, incest, hentai, vanilla, forced, or miscegenation porn. Very suggestive clothed pictures, such as what men fap to on facebook or instagram are also included here. Note that, despite the legislation in repressed nations like Canada and Australia, loli hentai and small tit porn is NOT counted as pedophilia for our purposes. It's not like those shitholes even have free speech anyway.
 
 ## advanced porn
-This is the stuff that's even banned from most porn sites such as pedophilia, bestiality, scat, mutilation, necrophilia, or snuff. While plenty of people genuinely enjoy this stuff, it's found online for the purpose of grossing out other users relatively more often than basic porn. 
+This is the stuff that's even banned from most porn sites such as pedophilia, bestiality, scat, mutilation, necrophilia, or snuff. While plenty of people genuinely enjoy this stuff, it's found online for the purpose of grossing out other users far more often than basic porn. Most sites that allow basic porn do not allow advanced porn, so it's justified having this separate category.
 
 ## criminal
-Many things are not protected by the first amendment to begin with, such as obscenity, fraud, child pornography, speech integral to illegal conduct, speech that incites imminent lawless action, speech that violates intellectual property law, true threats, and commercial speech such as advertising. To clarify the distinction between "criminal" and "advanced porn" regarding pedophilia, erotica or merely suggestive pictures of kids would be advanced porn whereas explicit pictures or videos of naked children are considered criminal.
+Many things are not protected by the first amendment to begin with, such as obscenity, fraud, child pornography, speech integral to illegal conduct, speech that incites imminent lawless action, speech that violates intellectual property law, true threats, and commercial speech such as advertising. To clarify the distinction between "criminal" and "advanced porn" regarding pedophilia, shota erotica or loli hentai would be advanced porn whereas explicit pictures or videos of naked children are considered criminal.
 
 ## political
-This includes any claim about the political process, rumors about politicians, facts about politicians, conspiracy theories, or leaked documents such as the Panama Papers. However, everything a politician says is not necessarily political.
+This includes any claim about the political process, political hot-button issues, rumors about politicians, facts about politicians, conspiracy theories, or leaked documents such as the Panama Papers. However, everything a politician says is not necessarily political.
 
 ## heretical
 Religious, anti-religious. Also includes aliens?
@@ -49,3 +49,4 @@ Religious, anti-religious. Also includes aliens?
 To reiterate, we do not make any judgement to the veracity of claim, so censorship of flat Earth theory, anti-vaccination, global warming theory, free energy technology, etc.  This includes any scientific claim about a political issue such as transexual biology, whereas transexual *rights* would be considered "political".
 
 ## sexist
+This includes any claim about 
