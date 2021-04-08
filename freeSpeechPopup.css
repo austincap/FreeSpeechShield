@@ -137,3 +137,13 @@ p {
   font-size: 60%;
 }
 
+.red {
+  color:red;
+}
+.green {
+  color:green;
+}
+
+.submiturl {
+  display:none;
+}

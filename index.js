@@ -1,6 +1,7 @@
 // init project
 const express = require("express"); // the library we will use to handle requests
 const { MongoClient } = require("mongodb"); // load mongodb
+const nodemailer = require("nodemailer"); // for emailing suggestions
 const port = 4567; // port to listen on
 const app = express(); // instantiate express
 const httpServer = require("http").createServer(app);
@@ -15,6 +16,35 @@ const uri = "mongodb+srv://randomuser:fucksluts@freespeechshieldcluster.8apgw.mo
 // Create a new MongoClient
 const client = new MongoClient(uri, {useNewUrlParser:true, useUnifiedTopology:true});
 
+async function emailSuggestion(socket, windowlocation) {
+  try{
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'austin.capobianco@gmail.com',
+        pass: '??????????????????????'
+      }
+    });
+
+    var mailOptions = {
+      from: 'austin.capobianco@gmail.com',
+      to: 'austin.capobianco@gmail.com',
+      subject: 'request for audit',
+      text: JSON.stringify(windowlocation)
+    };
+
+  }catch(error){
+    console.error(error);
+  }finally{
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  }
+}
 
 async function locateOneByQuery(socket, jsonOfUrlsToSearch) {
   var result = null;
@@ -32,9 +62,7 @@ async function locateOneByQuery(socket, jsonOfUrlsToSearch) {
   }finally{
     client.close();
     console.log(result);
-    if(result!=null){
-      socket.emit("sendclientdata", result);
-    }
+    socket.emit("sendclientdata", result);
   }
 }
 
@@ -43,6 +71,9 @@ io.on("connection", function(socket){
   socket.on("getwindowlocation", function(jsonOfUrlsToSearch){
     console.log(jsonOfUrlsToSearch);
     locateOneByQuery(socket, jsonOfUrlsToSearch);
+  });
+  socket.on("suggesturl", function(windowlocation){
+    emailSuggestion(socket, windowlocation);
   });
 });
 

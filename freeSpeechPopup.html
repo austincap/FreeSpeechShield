@@ -30,16 +30,12 @@
       <div class="divTable">
         <div class="divTableBody">
         <div class="divTableRow">
-        <div class="divTableCell">&nbsp;facebook.com is legally bound by <span id="country">NO COUNTRY</span>'s laws and is a subcommunity of <span id="communityparent">NO ONE</span>.</div>
-        <div class="divTableCell" id="overallscore">1/5<div id="overallscore-label">overall score</div></div>
+        <div class="divTableCell">&nbsp;<span id="url">facebook.com</span> is legally bound by <span id="country">NO COUNTRY</span>'s laws and is a subcommunity of <span id="domain">NO ONE</span>.</div>
+        <div class="divTableCell"><span id="overallscore">1</span>/5<div id="overallscore-label">overall score</div></div>
         </div>
         <div class="divTableRow">
         <div class="divTableCell">&nbsp;ideological leanings</div>
-        <div class="divTableCell">&nbsp;left</div>
-        </div>
-        <div class="divTableRow">
-        <div class="divTableCell">&nbsp;country</div>
-        <div class="divTableCell">&nbsp;usa</div>
+        <div class="divTableCell" id="ideology"></div>
         </div>
         <div class="divTableRow">
         <div class="divTableCell" data-toggle="tooltip" title="note: we do not distinguish between true and false information here, nor the ideological flavor. Only the semantic class of info">&nbsp;types of information that are censored</div>
@@ -47,35 +43,51 @@
         </div>
         <div class="divTableRow">
         <div class="divTableCell">&nbsp;user reports</div>
-        <div class="divTableCell">&nbsp;33</div>
+        <div class="divTableCell" id="violations"></div>
         </div>
         <div class="divTableRow">
         <div class="divTableCell">&nbsp;number of explicitly banned words, topics, memes, etc</div>
-        <div class="divTableCell">&nbsp;<a href="https://www.facebook.com/communitystandards/introduction">115</a></div>
+        <div class="divTableCell">&nbsp;<a href="https://www.facebook.com/communitystandards/introduction" id="nonowords"></a></div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">&nbsp;moderator aggressiveness</div>
+        <div class="divTableCell" id="aggressiveness"></div>
         </div>
         <div class="divTableRow">
           <div class="divTableCell"><b>&nbsp;this community:</b></div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">does not allow anonymous posting</div>
+        <div class="divTableCell">does <span class="red" id="anonposting">not </span>allow anonymous posting</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">will permaban users for constitutionally protected speech</div>
+        <div class="divTableCell" data-toggle="tooltip" title="barriers such as requiring a minimum account age, points, or acquired privileges like on stack overflow">does <span class="green" id="barriertopost">not </span>have a barrier to posting beyond account creation</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">will not shadowban</div>
+        <div class="divTableCell">does <span class="green" id="permaban">not </span>permaban users for constitutionally protected speech</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">does not have vague rules on speech</div>
+        <div class="divTableCell">does <span class="green" id="shadowban">not </span>shadowban</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">does not have aggressive moderation</div>
+        <div class="divTableCell">does <span class="green" id="vagueguidelines">not </span>have vague rules on speech</div>
         </div>
         <div class="divTableRow">
-        <div class="divTableCell">will delete user posts without consent</div>
+        <div class="divTableCell">does <span class="green" id="noreasongiven">not </span>delete user posts without providing a reason</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does <span class="red" id="appealsprocess">not </span>have an appeals process</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does <span class="red" id="censorquasicriminal">not </span>censor quasicriminal info</div>
+        </div>
+        <div class="divTableRow">
+        <div class="divTableCell">does <span class="red" id="censorcriminal">not </span>censor criminal info protected by the first amendment</div>
         </div>
         <div class="divTableRow">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+        <div class="divTableRow">
+        <canvas id="myChart" style="height: 370px; width: 100%;"></canvas>
         </div>
       </div>
     </div>

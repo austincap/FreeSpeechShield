@@ -8,7 +8,7 @@ var submiturlBtn = document.querySelector('.submiturl');
 /*  add event listeners to buttons */
 addBtn.addEventListener('click', addNote);
 clearBtn.addEventListener('click', clearAll);
-submiturlBtn.addEventListener('click', requestServerData);
+submiturlBtn.addEventListener('click', emailurl);
 /* generic error handler */
 function onError(error) {
   console.log(error);
@@ -31,25 +31,14 @@ function initialize() {
 function onGot(tabInfo) {
   console.log(tabInfo);
 }
-
-
 function addNote() {
   $("#intext").val('tet');
-  //window.location.href='/?tag=';
-
-
-  // browser.tabs.query({currentWindow: true, active: true}).then((tabs) => {let tab = tabs[0]; console.log(tab.url);}, console.error);
-  // var gettingCurrent = browser.tabs.getCurrent();
-  // gettingCurrent.then(onGot, onError);
-
   browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var tab = tabs[0];
     var url = new URL(tab.url);
     var domain = url.hostname;
     socket.emit("getwindowlocation", {"url":url, "domain":domain});
   });
-  //socket.emit("getwindowlocation", window.location.href);
-  console.log("tet");
   var noteTitle = inputTitle.value;
   var noteBody = inputBody.value;
   var gettingItem = browser.storage.local.get(noteTitle);
@@ -178,6 +167,11 @@ function clearAll() {
   browser.storage.local.clear();
 }
 
+
+function emailurl() {
+  console.log(window.location);
+  socket.emit("suggesturl", window.location);
+}
 
 /**
  * Sends a request to the specified url
@@ -353,25 +347,7 @@ window.onload = function () {
 const socket = io("ws://localhost:4567");
 
 socket.on("connect", () => {
-  // either with send()
-  socket.send("Hello!");
-
-  // or with emit() and custom event names
   socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
-});
-
-socket.on("dbchecked", data => {
-  console.log(data);
-});
-
-// handle the event sent with socket.send()
-socket.on("message", data => {
-  console.log(data);
-});
-
-// handle the event sent with socket.emit()
-socket.on("greetings", (elem1, elem2, elem3) => {
-  console.log(elem1, elem2, elem3);
 });
 
 socket.on("sendclientdata", data => {
@@ -379,4 +355,103 @@ socket.on("sendclientdata", data => {
   console.log(data);
   let dur = JSON.stringify(data);
   $("#intext").val(dur);
+  updateInfoBox(data);
 });
+
+function updateInfoBox(data){
+  console.log(data);
+  if(data!=null){
+    $("#intext").val(data.country);
+    $("#url").text(data.url);
+    $("#domain").text(data.domain);
+    $("#country").text(data.country);
+    $("#overallscore").text(data.overallscore);
+    $("#nonowords").text(data.nonowords);
+    $("#violations").text(data.violations);
+    $("#aggressiveness").text(data.aggressiveness);
+    data.ideology.forEach((elem)=>$("#ideology").append(" <span>"+elem+"</span>"));
+    if(data.anonposting){$("#anonposting").text("");}
+    if(data.barriertopost){$("#barriertopost").text("");}
+    if(data.shadowban){$("#shadowban").text("");}
+    if(data.permaban){$("#permaban").text("");}
+    if(data.vagueguidelines){$("#vagueguidelines").text("");}
+    if(data.noreasongiven){$("#noreasongiven").text("");}
+    if(data.appealsprocess){$("#appealsprocess").text("");}
+    if(data.censorcriminal){$("#censorcriminal").text("");}
+    if(data.censorquasicriminal){$("#censorquasicriminal").text("");}
+
+    var data = {
+        labels: ["Political", "Pornographic", "Science", "Criminal", "Quasicriminal", "Heretical", "Historical"],
+        datasets: [
+            {
+                label: "Censorship likelihoods",
+                backgroundColor: "rgba(179,181,198,0.2)",
+                borderColor: "rgba(179,181,198,1)",
+                pointBackgroundColor: "rgba(179,181,198,1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(179,181,198,1)",
+                data: data.censorshiplikelihoods
+            }
+        ]
+    };
+    var ctx = document.getElementById("myChart");
+    var options = {
+            tooltips: {
+              mode: 'label'
+            }
+        };
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: options
+    });
+    Chart.helpers.bindEvents(myRadarChart, ['mousedown'], function(evt) {
+      var lastMousePosition = [evt.x, evt.y];
+      console.log('mousedown');
+      var lastActive = myRadarChart.lastActive;
+      if (Array.isArray(lastActive) && lastActive.length) {
+        lastActive = lastActive[0];
+        console.log(lastActive);
+        var moveHandler = function (evt) {
+            var index = lastActive._index;
+            var dataset = lastActive._datasetIndex;
+            console.log('mouse move');
+            if (evt.y < lastMousePosition[1]) {
+              myRadarChart.data.datasets[dataset].data[index] = myRadarChart.data.datasets[dataset].data[index] + 1;
+              myRadarChart.update(1, false);
+            } else if (evt.y > lastMousePosition[1]) {
+              myRadarChart.data.datasets[dataset].data[index] = myRadarChart.data.datasets[dataset].data[index] - 1;
+              myRadarChart.update(1, false);
+            }
+          lastMousePosition = [evt.x, evt.y];
+        };
+        var outHandler = function () {
+          console.log('unbinding');
+          Chart.helpers.unbindEvents(myRadarChart, {'mousemove': moveHandler});
+          Chart.helpers.unbindEvents(myRadarChart, {'mouseup': outHandler});
+          Chart.helpers.unbindEvents(myRadarChart, {'mouseout': outHandler});
+        }
+        Chart.helpers.bindEvents(myRadarChart, ['mousemove'], moveHandler);
+        Chart.helpers.bindEvents(myRadarChart, ['mouseup'], outHandler);
+        Chart.helpers.bindEvents(myRadarChart, ['mouseout'], outHandler);
+      }
+    });
+  }else{
+    $("#intext").val("it looks like this online community has not been audited yet. click the button below to request a free speech audit");
+    $(".submiturl").css("display", "block");
+  }
+}
+
+
+// ,
+//           {
+//               label: "My Second dataset",
+//               backgroundColor: "rgba(255,99,132,0.2)",
+//               borderColor: "rgba(255,99,132,1)",
+//               pointBackgroundColor: "rgba(255,99,132,1)",
+//               pointBorderColor: "#fff",
+//               pointHoverBackgroundColor: "#fff",
+//               pointHoverBorderColor: "rgba(255,99,132,1)",
+//               data: [28, 48, 40, 19, 96, 27, 100]
+//           }
