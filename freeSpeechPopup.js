@@ -373,3 +373,10 @@ socket.on("message", data => {
 socket.on("greetings", (elem1, elem2, elem3) => {
   console.log(elem1, elem2, elem3);
 });
+
+socket.on("sendclientdata", data => {
+  console.log("client received data");
+  console.log(data);
+  let dur = JSON.stringify(data);
+  $("#intext").val(dur);
+});

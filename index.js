@@ -15,48 +15,38 @@ const uri = "mongodb+srv://randomuser:fucksluts@freespeechshieldcluster.8apgw.mo
 // Create a new MongoClient
 const client = new MongoClient(uri, {useNewUrlParser:true, useUnifiedTopology:true});
 
-async function checkdb(socket, jsonOfUrlsToSearch) {
-  var siteDocument = {};
-  try {
-    // Connect the client to the server
-    await client.connect();
-    var database = await client.db("DatabaseOfSites");
-    var DoSCollection = await database.collection("DatabaseOfSites");
-    // Establish and verify connection
-    await client.db("DatabaseOfSites").command({ ping: 1 });
-    console.log("Connected successfully to server");
-    // // Query for a movie that has the title 'The Room'
-    var query = await { url: jsonOfUrlsToSearch.domain };
-    var options = await {
-    //   // sort matched documents in descending order by rating
-       sort: { rating: -1 }
-    //   // Include only the `title` and `imdb` fields in the returned document
-    //   //projection: { _id: 0, title: 1, imdb: 1 },
-    };
-    siteDocument = await DoSCollection.findOne(query, options);
-    // since this method returns the matched document, not a cursor, print it directly
-    console.log(siteDocument.url);
-    console.log(siteDocument);
-    
-  } finally {
-    socket.emit('dbchecked', siteDocument);
-    // Ensures that the client will close when you finish/error
-    await client.close();
-    return siteDocument.url;
+
+async function locateOneByQuery(socket, jsonOfUrlsToSearch) {
+  var result = null;
+  try{
+    const client = await MongoClient.connect(uri, {useNewUrlParser: true});
+    result = await client.db("DatabaseOfSites").collection("DatabaseOfSites").findOne({ domain: jsonOfUrlsToSearch.domain });
+    if(result!==null){
+      console.log("domain match found");
+    }else{
+      console.log("no domain match, checking url");
+      result = await client.db("DatabaseOfSites").collection("DatabaseOfSites").findOne({ url: jsonOfUrlsToSearch.url });
+    }
+  }catch(error){
+    console.error(error);
+  }finally{
+    client.close();
+    console.log(result);
+    if(result!=null){
+      socket.emit("sendclientdata", result);
+    }
   }
 }
 
 
 io.on("connection", function(socket){
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-  socket.on("getwindowlocation", function(message){
-    console.log(message);
-    checkdb(socket, message);
+  socket.on("getwindowlocation", function(jsonOfUrlsToSearch){
+    console.log(jsonOfUrlsToSearch);
+    locateOneByQuery(socket, jsonOfUrlsToSearch);
   });
 });
 
 
-// listen for requests
 var listener = httpServer.listen(port, () => {
-    console.log("Your app is listening on port " + listener.address().port);
+  console.log("Your app is listening on port " + listener.address().port);
 });
