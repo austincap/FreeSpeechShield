@@ -24,7 +24,7 @@ We also specify how frequently which category of information the moderators cens
 * political information
 * scientific information
 
-It's important to note that we do NOT make a distinction between which ideological flavor or the veracity of the censored information. All we care about is whether or not it is censored. The rationale is that a site shouldn't get an average score if they heavily censor only one type of political view. It's not really free speech if only a subset of speakers are free.
+It's important to note that we do NOT make a distinction between which ideological flavor or the veracity of the censored information. All we care about is whether or not it is censored. The rationale is that a site shouldn't get an average score if they heavily censor only one type of political view. It's not really free speech if only a subset of speakers are free. 
 
 For each category and subcategory, a score representing the likelihood a post containing that category of information is censored is assigned and these scores make the shape of the radar chart. Let's look at each of these categories in more detail.
 
@@ -40,7 +40,7 @@ This is the stuff that's even banned from most porn sites such as pedophilia, be
 Many things are not protected by the first amendment to begin with, such as obscenity, fraud, child pornography, speech integral to illegal conduct, speech that incites imminent lawless action, speech that violates intellectual property law, true threats, and commercial speech such as advertising. To clarify the distinction between "criminal" and "advanced porn" regarding pedophilia, shota erotica or loli hentai would be advanced porn whereas explicit pictures or videos of naked children. Remember, hate speech is incontrovertibly NOT illegal. 
 
 ## quasicriminal
-This includes technically legal, albeit malicious, information like doxxing, spamming, or targeted harassment.
+This includes technically legal, albeit malicious, information like what is posted during doxxing, spamming, or targeted harassment.
 
 ## scientific
 This is censorship of information regarding the nature of the natural universe. To reiterate, we do not make any judgement to the veracity of claim, so censorship of flat Earth theory, anti-vaccination, global warming theory, free energy technology, the existence of god, the existence of aliens, etc. This includes any scientific claim about a political issue such as transexual biology, whereas transexual *rights* would be considered "political". Auditing science journals or organizations is outside of our scope because we only care about how free speech is restricted in online communities.
