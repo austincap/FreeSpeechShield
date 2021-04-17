@@ -4,8 +4,8 @@ Like the Newsguard web extension but for Free Speech
 # Intro
 This extension is meant to provide users with comprehensive at-a-glance data on the limits online communities put on speech. It's often pointed out that the first amendment only refers to state-enforced limitations on free speech. Corporations are allowed to do whatever they want with their platforms and there's nothing you can do about it except make your own. This is reasonable. After all, unlike "the public square" there is literally infinite server space for your shitposts. But what if we treated the entire internet like free speech actually mattered? You've heard of second amendment audits. We do that except we're a little more data-based because we use these data points:
 
-* the country the server is beholden to
-* the number of explicitly banned words or concepts (typically found in the "community guidelines" or equivalent)
+* the country the server is beholden to (countries rated Free according to the Freedom of Press classifications get 0 to subscore, partly free 1, and not free 3)
+* the number of explicitly banned words or concepts (typically found in the "community guidelines" or equivalent, 0-10 nonowords adds 0 to subscore, 11-25 adds 1)
 * the number of user generated free speech violation reports
 * whether moderators are aggressive
 * whether moderators permaban users expressing legal speech
@@ -53,3 +53,39 @@ It's important to note we are not concerned with discrimination, only censorship
 # User submissions
 
 Users can submit a report to increase the violation count a given online community has as well as suggest we audit a new site. The latter option puts a new url in the queue for us to audit which will take anywhere from 1 to 6 months. While users don't make accounts, you can type in your email before you suggest a site to be notified when the audit is complete. This system is also used to request new audits on sites already in our database.
+
+# Rubric
+
+Criteria 	Excellent (3 points) 	Good (2 points) 	Poor (1 point)
+
+Number of sources
+	
+
+Historical accuracy
+	
+
+Organization
+	
+
+Can easily tell from which sources information was drawn
+	
+
+Can tell with difficulty from where information came
+	
+
+Cannot tell from which source information came
+
+Bibliography
+	
+
+All relevant bibliographic information is included
+	
+
+Bibliography contains most relevant information
+	
+
+Bibliography contains very little information
+
+
+
+We generate a subscore from a several true or false facts:
